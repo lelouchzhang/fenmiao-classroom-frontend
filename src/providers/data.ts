@@ -13,6 +13,7 @@ const options: CreateDataProviderOptions = {
 
       filters?.forEach((filter) => {
         const field = "field" in filter ? filter.field : "";
+        if (filter.value == null || filter.value === "") return;
         const value = String(filter.value);
 
         if (resource === "subjects") {
