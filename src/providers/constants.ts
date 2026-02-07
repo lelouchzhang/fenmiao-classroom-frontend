@@ -1,33 +1,69 @@
-import { Subject } from "@/types";
+import { GraduationCap, School } from "lucide-react";
 
-export const API_URL = "https://api.fake-rest.refine.dev";
+export const USER_ROLES = {
+  STUDENT: "student",
+  TEACHER: "teacher",
+  ADMIN: "admin",
+};
 
-export const mockSubjectsData: Subject[] = [
+export const ROLE_OPTIONS = [
   {
-    id: 1,
-    code: "CS101",
-    name: "计算机科学导论",
-    description:
-      "本课程介绍计算机科学的基本概念，包括算法、数据结构、编程基础和计算机系统原理。",
-    department: "计算机学院",
-    createdAt: new Date().toISOString(),
+    value: USER_ROLES.STUDENT,
+    label: "Student",
+    icon: GraduationCap,
   },
   {
-    id: 2,
-    code: "MATH201",
-    name: "高等数学",
-    description:
-      "涵盖微积分、线性代数和概率论的基础知识，为工程和科学课程提供数学基础。",
-    department: "数学与统计学院",
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: 3,
-    code: "PHY150",
-    name: "大学物理",
-    description:
-      "介绍力学、热学、电磁学和光学的基本原理，培养学生的物理思维和实验能力。",
-    department: "物理学院",
-    createdAt: new Date().toISOString(),
+    value: USER_ROLES.TEACHER,
+    label: "Teacher",
+    icon: School,
   },
 ];
+
+export const DEPARTMENTS = [
+  "Computer Science",
+  "Mathematics",
+  "Physics",
+  "Chemistry",
+  "Biology",
+  "English",
+  "History",
+  "Geography",
+  "Economics",
+  "Business Administration",
+  "Engineering",
+  "Psychology",
+  "Sociology",
+  "Political Science",
+  "Philosophy",
+  "Education",
+  "Fine Arts",
+  "Music",
+  "Physical Education",
+  "Law",
+] as const;
+
+export const DEPARTMENT_OPTIONS = DEPARTMENTS.map((dept) => ({
+  value: dept,
+  label: dept,
+}));
+
+export const MAX_FILE_SIZE = 3 * 1024 * 1024; // 3MB in bytes
+export const ALLOWED_TYPES = [
+  "image/png",
+  "image/jpeg",
+  "image/jpg",
+  "image/webp",
+];
+
+export const CLOUDINARY_UPLOAD_URL = import.meta.env.VITE_CLOUDINARY_UPLOAD_URL;
+export const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+export const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_URL;
+
+export const BASE_URL = import.meta.env.VITE_API_URL;
+export const ACCESS_TOKEN_KEY = import.meta.env.VITE_ACCESS_TOKEN_KEY;
+export const REFRESH_TOKEN_KEY = import.meta.env.VITE_REFRESH_TOKEN_KEY;
+
+export const REFRESH_TOKEN_URL = `${BASE_URL}/refresh-token`;
+
+export const CLOUDINARY_UPLOAD_PRESET = import.meta.env
+  .VITE_CLOUDINARY_UPLOAD_PRESET;
