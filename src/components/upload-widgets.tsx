@@ -79,16 +79,12 @@ const UploadWidgets = ({ value = null, onChange, disabled = false }) => {
           role="button"
           tabIndex={0}
           onClick={openWidget}
-          onKeyDown={(e) => {
-            e.preventDefault();
-            openWidget();
-          }}
         >
           <div className="upload-prompt">
             <UploadCloud className="icon" />
             <div>
               <p>Click to upload photo</p>
-              <p>png, jpg, webp up to 5MB</p>
+              <p>png, jpg, webp up to 3MB</p>
             </div>
           </div>
         </div>

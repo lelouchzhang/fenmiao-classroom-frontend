@@ -150,7 +150,7 @@ const Create = () => {
                         />
                       </FormControl>
                       <FormMessage />
-                      {errors.bannerCldPubId && errors.bannerUrl && (
+                      {errors.bannerCldPubId && (
                         <p className="text-destructive text-sm">
                           {errors.bannerCldPubId.message?.toString()}
                         </p>
