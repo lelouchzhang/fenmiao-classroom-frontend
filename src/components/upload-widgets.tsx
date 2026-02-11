@@ -4,11 +4,15 @@ import {
   CLOUDINARY_UPLOAD_PRESET,
   MAX_FILE_SIZE,
 } from "@/constant";
-import { UploadWidgetValue } from "@/types";
+import { UploadWidgetProps, UploadWidgetValue } from "@/types";
 import { UploadCloud } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
-const UploadWidgets = ({ value = null, onChange, disabled = false }) => {
+const UploadWidgets = ({
+  value = null,
+  onChange,
+  disabled = false,
+}: UploadWidgetProps) => {
   // 预览上传的图片
   const [preview, setPreview] = useState<UploadWidgetValue | null>(value);
 
