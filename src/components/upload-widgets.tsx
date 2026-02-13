@@ -64,6 +64,10 @@ const UploadWidgets = ({
     }, 500);
     return () => {
       window.clearInterval(intervalId);
+      if (widgetRef.current) {
+        widgetRef.current.destroy();
+        widgetRef.current = null;
+      }
     };
   }, []);
 

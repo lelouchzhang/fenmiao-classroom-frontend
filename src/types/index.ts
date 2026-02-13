@@ -38,7 +38,9 @@ declare global {
   }
 
   interface CloudinaryWidget {
-    open: () => void;
+    open: () => void; // 	打开上传对话框
+    close: () => void; // 关闭对话框(临时)
+    destroy: () => void; // 销毁实例，释放资源
   }
 
   interface Window {
