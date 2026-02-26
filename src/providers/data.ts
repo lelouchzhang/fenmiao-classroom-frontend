@@ -1,6 +1,19 @@
 import { BACKEND_BASE_URL } from "@/constant";
-import { ListResponse } from "@/types";
+import { CreateResponse, GetOneResponse, ListResponse } from "@/types";
+import { HttpError } from "@refinedev/core";
 import { createDataProvider, CreateDataProviderOptions } from "@refinedev/rest";
+
+const buildHttpError = async (response: Response): Promise<HttpError> => {
+  let message = "请求失败";
+  try {
+    const payload = (await response.json()) as { message?: string };
+    if (payload?.message) message = payload.message;
+  } catch (error) {
+    // ignore Errors
+  }
+  return { message, statusCode: response.status };
+};
+
 const options: CreateDataProviderOptions = {
   getList: {
     getEndpoint: ({ resource }) => resource,
@@ -28,12 +41,29 @@ const options: CreateDataProviderOptions = {
       return params;
     },
     mapResponse: async (response) => {
+      if (!response.ok) throw await buildHttpError(response);
       const payload: ListResponse = await response.clone().json();
       return payload.data ?? [];
     },
     getTotalCount: async (response) => {
+      if (!response.ok) throw await buildHttpError(response);
       const payload: ListResponse = await response.clone().json();
       return payload.pagination?.total ?? payload.data?.length ?? 0;
+    },
+  },
+  create: {
+    getEndpoint: ({ resource }) => resource,
+    buildBodyParams: async ({ variables }) => variables,
+    mapResponse: async (response) => {
+      const json: CreateResponse = await response.json();
+      return json.data ?? {};
+    },
+  },
+  getOne: {
+    getEndpoint: ({ resource, id }) => `${resource}/${id}`,
+    mapResponse: async (response) => {
+      const json: GetOneResponse = await response.json();
+      return json.data ?? {};
     },
   },
 };
