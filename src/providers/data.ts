@@ -87,18 +87,9 @@ const options: CreateDataProviderOptions = {
   },
 };
 
-// 根据环境自动选择后端地址
-const getBackendUrl = () => {
-  const envUrl = BACKEND_BASE_URL;
-  // 如果环境变量未设置或为undefined，使用生产环境地址
-  if (!envUrl || envUrl === "undefined") {
-    return "https://fenmiao-classroom-backend-production.up.railway.app/api/";
-  }
-  return envUrl;
-};
-
-const backendUrl = getBackendUrl();
-
-const { dataProvider } = createDataProvider(backendUrl, options);
+const { dataProvider } = createDataProvider(
+  "https://fenmiao-classroom-backend-production.up.railway.app/api/",
+  options
+);
 
 export { dataProvider };
