@@ -18,7 +18,10 @@ const buildHttpError = async (response: Response): Promise<HttpError> => {
 const options: CreateDataProviderOptions = {
   getList: {
     // 构造API端点
-    getEndpoint: ({ resource }) => resource,
+    getEndpoint: ({ resource }) => {
+      console.log('[DEBUG] Requesting endpoint:', resource);
+      return resource;
+    },
     // 处理查询参数
     buildQueryParams: async ({ resource, pagination, filters }) => {
       const page = pagination?.currentPage ?? 1;
@@ -87,8 +90,11 @@ const options: CreateDataProviderOptions = {
   },
 };
 
+const backendUrl = "https://fenmiao-classroom-backend-production.up.railway.app/api/";
+console.log('[CRITICAL] Backend URL:', backendUrl);
+
 const { dataProvider } = createDataProvider(
-  "https://fenmiao-classroom-backend-production.up.railway.app/api/",
+  backendUrl,
   options
 );
 
