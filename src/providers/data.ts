@@ -3,6 +3,7 @@ import { CreateResponse, GetOneResponse, ListResponse } from "@/types";
 import { HttpError } from "@refinedev/core";
 import { createDataProvider, CreateDataProviderOptions } from "@refinedev/rest";
 
+// 前端组件 → dataProvider → 后端 API → 数据库
 const buildHttpError = async (response: Response): Promise<HttpError> => {
   let message = "请求失败";
   try {
@@ -16,8 +17,9 @@ const buildHttpError = async (response: Response): Promise<HttpError> => {
 
 const options: CreateDataProviderOptions = {
   getList: {
+    // 构造API端点
     getEndpoint: ({ resource }) => resource,
-
+    // 处理查询参数
     buildQueryParams: async ({ resource, pagination, filters }) => {
       const page = pagination?.currentPage ?? 1;
       const pageSize = pagination?.pageSize ?? 10;
@@ -26,25 +28,42 @@ const options: CreateDataProviderOptions = {
 
       filters?.forEach((filter) => {
         const field = "field" in filter ? filter.field : "";
-        if (filter.value == null || filter.value === "") return;
         const value = String(filter.value);
 
-        if (resource === "subjects") {
-          if (field === "department") {
-            params.department = value;
-          }
-          if (field === "name" || field === "code") {
+        if (field === "role") {
+          params.role = value;
+        }
+
+        if (resource === "departments") {
+          if (field === "name" || field === "code") params.search = value;
+        }
+
+        if (resource === "users") {
+          if (field === "search" || field === "name" || field === "email") {
             params.search = value;
           }
+        }
+
+        if (resource === "subjects") {
+          if (field === "department") params.department = value;
+          if (field === "name" || field === "code") params.search = value;
+        }
+
+        if (resource === "classes") {
+          if (field === "name") params.search = value;
+          if (field === "subject") params.subject = value;
+          if (field === "teacher") params.teacher = value;
         }
       });
       return params;
     },
+    // 处理响应数据
     mapResponse: async (response) => {
       if (!response.ok) throw await buildHttpError(response);
       const payload: ListResponse = await response.clone().json();
       return payload.data ?? [];
     },
+    // total
     getTotalCount: async (response) => {
       if (!response.ok) throw await buildHttpError(response);
       const payload: ListResponse = await response.clone().json();
