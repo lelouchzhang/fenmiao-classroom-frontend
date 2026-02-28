@@ -19,7 +19,6 @@ const options: CreateDataProviderOptions = {
   getList: {
     // 构造API端点
     getEndpoint: ({ resource }) => {
-      console.log('[DEBUG] Requesting endpoint:', resource);
       return resource;
     },
     // 处理查询参数
@@ -90,12 +89,6 @@ const options: CreateDataProviderOptions = {
   },
 };
 
-const backendUrl = "https://fenmiao-classroom-backend-production.up.railway.app/api/";
-console.log('[CRITICAL] Backend URL:', backendUrl);
-
-const { dataProvider } = createDataProvider(
-  backendUrl,
-  options
-);
+const { dataProvider } = createDataProvider(BACKEND_BASE_URL, options);
 
 export { dataProvider };
