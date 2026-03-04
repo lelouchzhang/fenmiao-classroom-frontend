@@ -18,6 +18,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { bannerPhoto } from "@/lib/cloudinary";
 import { ClassDetails } from "@/types";
+import { useNavigate } from "react-router";
 
 type ClassUser = {
   id: string;
@@ -30,6 +31,10 @@ type ClassUser = {
 const ClassesShow = () => {
   const { id } = useParams();
   const classId = id ?? "";
+  const navigate = useNavigate();
+  const handleJoinClick = () => {
+    navigate("/enrollments/join");
+  };
 
   const { query } = useShow<ClassDetails>({
     resource: "classes",
@@ -231,7 +236,7 @@ const ClassesShow = () => {
           </ol>
         </div>
 
-        <Button size="lg" className="w-full">
+        <Button size="lg" className="w-full" onClick={handleJoinClick}>
           Join Class
         </Button>
       </Card>
