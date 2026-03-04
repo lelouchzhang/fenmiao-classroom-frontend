@@ -21,7 +21,7 @@ import { Separator } from "@/components/ui/separator";
 import type { User } from "@/types";
 
 const joinSchema = z.object({
-  inviteCode: z.string().min(3, "Invite code is required"),
+  inviteCode: z.string().trim().min(3, "Invite code is required"),
 });
 
 type JoinFormValues = z.infer<typeof joinSchema>;
@@ -42,6 +42,7 @@ const EnrollmentsJoin = () => {
   });
 
   const inviteCode = form.watch("inviteCode");
+  const normalizedInviteCode = inviteCode.trim();
 
   const onSubmit = async (values: JoinFormValues) => {
     if (!currentUser?.id) return;
@@ -61,7 +62,8 @@ const EnrollmentsJoin = () => {
     });
   };
 
-  const isSubmitDisabled = isPending || !currentUser?.id || !inviteCode;
+  const isSubmitDisabled =
+    isPending || !currentUser?.id || normalizedInviteCode.length < 3;
 
   return (
     <CreateView className="class-view">

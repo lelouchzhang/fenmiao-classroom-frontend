@@ -62,20 +62,26 @@ const EnrollmentsCreate = () => {
 
   const onSubmit = async (values: EnrollFormValues) => {
     if (!currentUser?.id) return;
+    try {
+      const response = await createEnrollment({
+        resource: "enrollments",
+        values: {
+          classId: values.classId,
+          studentId: currentUser.id,
+        },
+      });
 
-    const response = await createEnrollment({
-      resource: "enrollments",
-      values: {
-        classId: values.classId,
-        studentId: currentUser.id,
-      },
-    });
-
-    navigate("/enrollments/confirm", {
-      state: {
-        enrollment: response?.data,
-      },
-    });
+      navigate("/enrollments/confirm", {
+        state: {
+          enrollment: response?.data,
+        },
+      });
+    } catch (error) {
+      form.setError("classId", {
+        type: "server",
+        message: "选课失败，请稍后再试。",
+      });
+    }
   };
 
   const isSubmitDisabled =

@@ -129,9 +129,9 @@ const Dashboard = () => {
     return [...subjectsByDepartment]
       .sort((a, b) => b.totalSubjects - a.totalSubjects)
       .slice(0, 5)
-      .map((item, index) => ({
+      .map((item) => ({
         ...item,
-        departmentId: index,
+        departmentId: item.departmentName,
       }));
   }, [subjectsByDepartment]);
 
@@ -139,9 +139,9 @@ const Dashboard = () => {
     return [...classesBySubject]
       .sort((a, b) => b.totalClasses - a.totalClasses)
       .slice(0, 5)
-      .map((item, index) => ({
+      .map((item) => ({
         ...item,
-        subjectId: index,
+        subjectId: item.subjectName,
       }));
   }, [classesBySubject]);
 
